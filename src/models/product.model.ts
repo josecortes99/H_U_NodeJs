@@ -46,5 +46,5 @@ Products.init(
   }
 );
 
-Customers.hasMany(Products, { foreignKey: 'customer_id'})
-Products.belongsTo(Customers, { foreignKey: 'customer_id'})
+Customers.hasMany(Products, { foreignKey: "customer_id" });
+Products.belongsTo(Customers, { foreignKey: "customer_id" });

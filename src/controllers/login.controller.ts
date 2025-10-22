@@ -4,19 +4,21 @@ import { handleHttp } from "../utils/error.handdler.ts";
 
 export const loginController = async (req: Request, res: Response) => {
   try {
-    console.log("BODY RECIBIDO:", req.body);
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res.status(400).json({ ok: false, error: "Faltan campos requeridos" });
+      return res
+        .status(400)
+        .json({ ok: false, error: "Faltan campos requeridos" });
     }
 
-    const { token, user } = await loginUserService(email, password);
+    const { token, refreshToken, user } = await loginUserService(email, password);
 
     res.status(200).json({
       ok: true,
       message: "Inicio de sesión exitoso",
       token,
+      refreshToken,
       user,
     });
   } catch (error: any) {
@@ -24,3 +26,4 @@ export const loginController = async (req: Request, res: Response) => {
     handleHttp(res, "Error al iniciar sesión", 401, error.message);
   }
 };
+

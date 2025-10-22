@@ -15,7 +15,7 @@ export const createUserService = async (
       name,
       email,
       password: hashedPassword,
-      rol
+      rol,
     });
 
     return newUser;
@@ -24,4 +24,3 @@ export const createUserService = async (
     throw new Error("Could not create user");
   }
 };
-
