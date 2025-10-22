@@ -1,10 +1,13 @@
 import type { Request, Response } from "express";
 import { loginUserService } from "../services/login.service.ts";
 import { handleHttp } from "../utils/error.handdler.ts";
+import  type { LoginDTO } from "../dtos/login.dto.ts";
 
 export const loginController = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const body = req.body as LoginDTO;
+
+    const {email, password } = body
 
     if (!email || !password) {
       return res
