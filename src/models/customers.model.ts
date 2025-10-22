@@ -6,7 +6,7 @@ export class Customers extends Model {
   public identification!: string;
   public name!: string;
   public email!: string;
-  public address!: string;
+  public address!: string
   public created_at!: Date;
   public updated_at!: Date;
 }
