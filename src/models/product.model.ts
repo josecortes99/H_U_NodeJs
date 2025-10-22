@@ -1,5 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/db.config.ts";
+import { Customers } from "../models/customers.model.ts";
 
 export class Products extends Model {
   public id!: number;
@@ -25,6 +26,10 @@ Products.init(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
+    customer_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     created_at: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -40,3 +45,6 @@ Products.init(
     timestamps: false,
   }
 );
+
+Customers.hasMany(Products, { foreignKey: 'customer_id'})
+Products.belongsTo(Customers, { foreignKey: 'customer_id'})
