@@ -1,12 +1,12 @@
 import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/db.config.ts";
-import { Customers } from "../models/customers.model.ts";
+//import { Stores } from "./stores.model.ts";
 
 export class Products extends Model {
   public id!: number;
   public name!: string;
   public code!: string;
-  public store_id!: number;
+  public store_id!: number
   public created_at!: Date;
   public updated_at!: Date;
 }
@@ -26,7 +26,7 @@ Products.init(
       type: DataTypes.STRING(255),
       allowNull: true,
     },
-    customer_id: {
+    store_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
@@ -46,5 +46,5 @@ Products.init(
   }
 );
 
-Customers.hasMany(Products, { foreignKey: "customer_id" });
-Products.belongsTo(Customers, { foreignKey: "customer_id" });
+//Stores.hasMany(Products, { foreignKey: 'store_id'})
+//Products.belongsTo(Stores, { foreignKey: 'store_id'})
