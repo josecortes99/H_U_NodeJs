@@ -2,6 +2,7 @@ import type { Request, Response } from "express";
 import { getCustomersService, getCustomerByIdService, createCustomerService, updateCustomerService, deleteCustomerService, findCustomerByIdentificationService } from "../services/customers.service.ts";
 import { handleHttp } from "../utils/error.handdler.ts";
 import type { HttpErrorStatus } from "../types/types.ts";
+import type { CustomersDTO } from "../dtos/customers.dto.ts";
 
 export const getCustomersController = async(req: Request, res: Response) => {
     try {
@@ -30,7 +31,8 @@ export const getCustomerByIdController = async(req: Request, res: Response) => {
 
 export const createCustomerController = async(req: Request, res: Response) => {
     try {
-        const { identification, name, email, address } = req.body
+        const body = req.body as CustomersDTO;
+        const { identification, name, email, address } = body
         const data = await createCustomerService(identification, name, email, address)
         res.status(201).json(data)
     } catch (error) {
@@ -74,7 +76,8 @@ export const deleteCustomerController = async(req: Request, res: Response) => {
 
 export const findCustomerByIdentificationController = async (req: Request, res: Response) => {
   try {
-    const { identification } = req.body;
+    const body = req.body as CustomersDTO;
+    const { identification } = body;
 
     if (!identification) {
       return handleHttp(res, "Debe proporcionar una identificación", 400 as HttpErrorStatus);
