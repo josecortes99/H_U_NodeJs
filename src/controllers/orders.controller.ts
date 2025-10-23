@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import { getOrdersService, getOrderByIdService, createOrderService, updateOrderService, deleteOrderService } from "../services/orders.service.ts";
+import { getOrdersService, getOrderByIdService, createOrderService, updateOrderService, deleteOrderService, getOrdersByCustomerService, getOrdersByProductService } from "../services/orders.service.ts";
 import { handleHttp } from "../utils/error.handdler.ts";
 import type { HttpErrorStatus } from "../types/types.ts";
 import type { OrdersDTO } from "../dtos/orders.dto.ts";
@@ -26,6 +26,54 @@ export const getOrderByIdController = async(req: Request, res: Response) => {
         return handleHttp(res, "Error del servidor", 500 as HttpErrorStatus, error)
     }
 }
+
+export const getOrdersByCustomerController = async (req: Request, res: Response) => {
+  try {
+    const { customer_id } = req.query;
+
+    if (!customer_id) {
+      return handleHttp(res, "Debe proporcionar un customer_id", 400 as HttpErrorStatus);
+    }
+
+    const data = await getOrdersByCustomerService(Number(customer_id));
+
+    if (data.length === 0) {
+      return handleHttp(res, "No se encontraron pedidos para este cliente", 404 as HttpErrorStatus);
+    }
+
+    res.status(200).json({
+      ok: true,
+      message: "Pedidos encontrados",
+      data,
+    });
+  } catch (error) {
+    return handleHttp(res, "Error al obtener pedidos por cliente", 500 as HttpErrorStatus, error);
+  }
+};
+
+export const getOrdersByProductController = async (req: Request, res: Response) => {
+  try {
+    const { product_id } = req.query;
+
+    if (!product_id) {
+      return handleHttp(res, "Debe proporcionar un product_id", 400 as HttpErrorStatus);
+    }
+
+    const data = await getOrdersByProductService(Number(product_id));
+
+    if (data.length === 0) {
+      return handleHttp(res, "No se encontraron pedidos para este producto", 404 as HttpErrorStatus);
+    }
+
+    res.status(200).json({
+      ok: true,
+      message: "Pedidos encontrados",
+      data,
+    });
+  } catch (error) {
+    return handleHttp(res, "Error al obtener pedidos por producto", 500 as HttpErrorStatus, error);
+  }
+};
 
 export const createOrderController = async (req: Request, res: Response) => {
   try {
