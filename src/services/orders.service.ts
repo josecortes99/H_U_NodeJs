@@ -9,6 +9,32 @@ export const getOrderByIdService = async (id: number) => {
   return await Orders.findByPk(id);
 };
 
+export const getOrdersByCustomerService = async (customer_id: number) => {
+  try {
+    const orders = await Orders.findAll({
+      where: { customer_id },
+    });
+
+    return orders;
+  } catch (error) {
+    console.error("Error al filtrar pedidos por cliente:", error);
+    throw error;
+  }
+};
+
+export const getOrdersByProductService = async (product_id: number) => {
+  try {
+    const orders = await Orders.findAll({
+      where: { product_id },
+    });
+
+    return orders;
+  } catch (error) {
+    console.error("Error al filtrar pedidos por productos:", error);
+    throw error;
+  }
+};
+
 export const createOrderService = async (
   customer_id: number,
   product_id: number,
